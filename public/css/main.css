@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    background: #6e6c78;
+    height: 100%;
+}
+.content {
+    flex: 1 0 auto;
+    align-self: center;
+    margin-top: 20px;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10 px;
+}
+footer{
+    flex: 0 0 auto;
+    background-color: #3b3a3d;
+    color: white;
+    padding: 1rem 4rem;
+    text-align: center;
+}
+table { 
+    margin: 20px auto; 
+    word-break: break-all;
+    width: 100%;
+    border-spacing: 1; 
+    border-collapse: collapse; 
+    background:white;
+    border-radius:15px;
+    overflow:hidden;   
+    padding: 100px;  
+    font-family: 'Gilroy-Medium', sans-serif;
+}  
+thead tr {    
+    background:#7AA899;    
+    text-align: center;
+    height:50px;
+}	
+tbody tr { 
+    height:48px; 
+    border-bottom:1px solid #E3F1D5;
+    text-align: center;
+}
+.submit_delete {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+.submit_thead {
+    font-family: 'Gilroy-Medium', sans-serif;
+    font-size:16px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
+.decor {
+   height: 500px;
+   margin: 20px auto 0;
+   background: white;
+   border-radius: 20px;
+}
+.form-inner {
+   padding: 40px 50px;
+   width: 350px;
+}
+.form-inner input:not([type="radio"]), .form-inner textarea{
+   display: block;
+   width: 100%;
+   padding: 0 20px;
+   margin-bottom: 10px;
+   background: #E9EFF6;
+   line-height: 40px;
+   border-width: 0;
+   border-radius: 10px;
+   font-family: 'Gilroy-Medium', sans-serif;
+}
+.form-inner label {
+    font-family: 'Gilroy-Medium', sans-serif;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 10px;
+}
+.form-inner input[type="radio"] {
+    display: inline;
+}
+.form-inner input[type="submit"] {
+    
+   margin-top: 30px;
+   background: #7AA899;
+   border-bottom: 4px solid #649786;
+   font-size: 16px;
+}
+.form-inner textarea {
+   resize: none;
+}
+.form-inner h3 {
+   margin-top: 0;
+   font-family: 'Gilroy-Medium', sans-serif;
+   font-weight: 500;
+   font-size: 24px;
+   color: #707981;
+   margin-bottom: 15px;
+}
+textarea::placeholder {
+    padding-top: 10px;
+}
+::-webkit-calendar-picker-indicator{
+    cursor: pointer;
+} 
+#slider {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    margin: auto 30px;
+    column-gap:  10px;
+    justify-items: start;
+    justify-content: center;
+}  
