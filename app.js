@@ -37,32 +37,38 @@ app.get('', urlencodedParser, (request, response) => {
     get_all(response);    
 });
 
-app.post("/", urlencodedParser, function (request, response) {
+app.post("/delete", urlencodedParser, function (request, response) {
     if(!request.body) return response.sendStatus(400);
 
-    if (request.body.sum != null)
-    {
-        connection.query('INSERT Spending(user_id, sum, date, category, description, income) VALUES (?,?,?,?,?,?)',
-        [
-        1,
-        request.body.sum * 100,
-        request.body.date,
-        request.body.category,
-        request.body.description,
-        request.body.type == 'income'
-        ]);
-    } else if (request.body.spending_id != null){
-        connection.query('DELETE FROM Spending WHERE spending_id=' + request.body.spending_id 
-                            + ' AND user_id=1', function (err, result) {
+    connection.query('DELETE FROM Spending WHERE spending_id=' + request.body.spending_id 
+                        + ' AND user_id=1', function (err, result) {
+        if (err) throw err;
+        });
 
-            if (err) throw err;
-            console.log('delete' + request.body.spending_id);
-          });
-    }
-    else {
-        define_sort_type(request.body.sorting_type, request.body.sorting_direction);
-        console.log(sorting_info + " " + request.body.sorting_direction + " " + request.body.sorting_type);
-    }
+    get_all(response); 
+ });
+
+app.post("/add", urlencodedParser, function (request, response) {
+    if(!request.body) return response.sendStatus(400);
+
+    connection.query('INSERT Spending(user_id, sum, date, category, description, income) VALUES (?,?,?,?,?,?)',
+    [
+    1,
+    request.body.sum * 100,
+    request.body.date,
+    request.body.category,
+    request.body.description,
+    request.body.type == 'income'
+    ]);
+
+    get_all(response); 
+ });
+
+app.post("/sort", urlencodedParser, function (request, response) {
+    if(!request.body) return response.sendStatus(400);
+
+    define_sort_type(request.body.sorting_type, request.body.sorting_direction);
+
     get_all(response); 
  });
 
@@ -85,6 +91,5 @@ function get_all(response) {
     connection.query('SELECT * FROM Spending ORDER BY ' + sorting_info[0] + (sorting_info[1] == false ? " DESC":""), function (err, result) {
         if (err) throw err;
         response.render('index', { fins: result, title: 'Трекер финансов', sorting_info:sorting_info});
-        console.log('BBBB');
     });
 }
