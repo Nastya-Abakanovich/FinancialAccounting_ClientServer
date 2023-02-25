@@ -104,6 +104,9 @@ tbody tr {
 }
 .form-inner textarea {
    resize: none;
+   line-height:20px;
+   padding-top: 10px;
+   padding-bottom: 10px;
 }
 .form-inner h3 {
    margin-top: 0;

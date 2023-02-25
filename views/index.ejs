@@ -2,15 +2,34 @@
     <form class="decor" method="post" name="inputData" action="add">
         <div class="form-inner">
             <h3>Введите данные</h3>
-            <input type="number" step="0.01" min="0" max="42949672.90" name="sum" placeholder="Сумма" required/> 
-            <input type="text" name="category" maxlength="50" placeholder="Категория" required/>        
-            <input type="date" id="datePicker" name="date" placeholder="Дата" required/>
-            <textarea placeholder="Описание..." rows="3" name="description" required></textarea>  
+            <input type="number" step="0.01" min="0" max="42949672.90" name="sum" placeholder="Сумма" required  
+            <% if (typeof editFin != "undefined") { %> 
+                value=<%=editFin.sum/100 %> 
+            <% } %> />            
+            <input type="text" name="category" maxlength="50" placeholder="Категория" required
+            <% if (typeof editFin != "undefined") { %> 
+                value=<%=editFin.category %> 
+            <% } %> />         
+            <input type="date" id="datePicker" name="date" placeholder="Дата" max="9999-12-31" required
+            <% if (typeof editFin != "undefined") { %> 
+                <%var date = editFin.date; date.setMilliseconds(3 * 60 * 60 * 1000);%>
+            <% } else {%>                   
+                <%var date = new Date(); date.setMilliseconds(3 * 60 * 60 * 1000);%>               
+            <% } %> 
+            value=<%=date.toISOString().substring(0, 10) %> />   
+            <textarea placeholder="Описание..." rows="6" name="description" required><% if (typeof editFin != "undefined") { %><%=editFin.description %><% } %></textarea>  
             <input type="radio" id="radio-1" name="type" value="expenses" checked>      
             <label for="radio-1">Расходы</label>  
-            <input type="radio" id="radio-2" name="type" value="income">      
+            <input type="radio" id="radio-2" name="type" value="income" <% if (typeof editFin != "undefined" && editFin.income) { %>checked<% } %>>      
             <label for="radio-2">Доходы</label>
-            <input type="submit" value="Добавить" /> 
+
+            <input type="hidden" name="edit_id" 
+            <% if (typeof editFin != "undefined") { %> 
+                value=<%=editFin.spending_id %> 
+            <% } else {%> 
+                value="-1"
+            <% } %>/>  
+            <input type="submit" value=<%=submitValue %> /> 
         </div>
     </form>
     
@@ -95,18 +114,21 @@
                     <input type="hidden" name="sorting_type" value="income">
                 </form>
                 <td width="40px"></td>
+                <td width="40px"></td>
             </tr> 
         </thead>
         <tbody>
             <% for(var i=0; i<fins.length; i++) {%>
                 
-                    <tr><form method="post" name="delete" action="delete">
+                    <tr><form method="post" name="update" action="update">
                         <td><%=fins[i].sum/100 %> BYN</td>
                         <td><%=fins[i].category %></td>
                         <td><%=fins[i].description %></td>
                         <td><%=fins[i].date.toLocaleDateString("ru-RU") %></td>
                         <td><%=fins[i].income == 0 ? "Расходы" : "Доходы" %></td>
-                        <td><button type="submit" class="submit_delete"><i class="fa fa-trash-o"></i></button></td>
+                        <td><button type="submit" class="submit_delete" name="delete"><i class="fa fa-trash-o"></i></button></td>
+                        <td><button type="submit" class="submit_delete" name="edit"><i class="fa fa-pencil-square-o"></i></button></td>
+                        
                         <input type="hidden" name="spending_id" value=<%=fins[i].spending_id %>>                        
                     </form></tr>  
                                      
