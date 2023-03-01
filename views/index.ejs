@@ -1,5 +1,5 @@
 <div id="slider">
-    <form class="decor" method="post" name="inputData" action="add">
+    <form class="decor" method="post" name="inputData" action="add" enctype="multipart/form-data">
         <div class="form-inner">
             <h3>Введите данные</h3>
             <input type="number" step="0.01" min="0" max="42949672.90" name="sum" placeholder="Сумма" required  
@@ -12,10 +12,11 @@
             <% } %> />         
             <input type="date" id="datePicker" name="date" placeholder="Дата" max="9999-12-31" required
             <% if (typeof editFin != "undefined") { %> 
-                <%var date = editFin.date; date.setMilliseconds(3 * 60 * 60 * 1000);%>
+                <%var date = editFin.date;%>
             <% } else {%>                   
-                <%var date = new Date(); date.setMilliseconds(3 * 60 * 60 * 1000);%>               
+                <%var date = new Date();%>               
             <% } %> 
+            <%date.setMilliseconds(3 * 60 * 60 * 1000); %>
             value=<%=date.toISOString().substring(0, 10) %> />   
             <textarea placeholder="Описание..." rows="6" name="description" required><% if (typeof editFin != "undefined") { %><%=editFin.description %><% } %></textarea>  
             <input type="radio" id="radio-1" name="type" value="expenses" checked>      
@@ -28,7 +29,11 @@
                 value=<%=editFin.spending_id %> 
             <% } else {%> 
                 value="-1"
-            <% } %>/>  
+            <% } %> />  
+            <input type="file" name="fileToUpload" 
+            <% if (typeof editFin != "undefined") { %> 
+                value=<%=editFin.filename %> 
+            <% } %> />
             <input type="submit" value=<%=submitValue %> /> 
         </div>
     </form>
@@ -113,6 +118,7 @@
                     </td>
                     <input type="hidden" name="sorting_type" value="income">
                 </form>
+                <td width="100px"></td>
                 <td width="40px"></td>
                 <td width="40px"></td>
             </tr> 
@@ -126,9 +132,14 @@
                         <td><%=fins[i].description %></td>
                         <td><%=fins[i].date.toLocaleDateString("ru-RU") %></td>
                         <td><%=fins[i].income == 0 ? "Расходы" : "Доходы" %></td>
+                        <% if (fins[i].filename !== null) { %>
+                            <td><a href="/public/uploads/<%= fins[i].filename %>" target="_blank"><%=fins[i].filename %></a></td>
+                        <% } else {%>
+                            <td></td>
+                        <% } %>
                         <td><button type="submit" class="submit_delete" name="delete"><i class="fa fa-trash-o"></i></button></td>
                         <td><button type="submit" class="submit_delete" name="edit"><i class="fa fa-pencil-square-o"></i></button></td>
-                        
+
                         <input type="hidden" name="spending_id" value=<%=fins[i].spending_id %>>                        
                     </form></tr>  
                                      
